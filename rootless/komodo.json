@@ -1,7 +1,7 @@
 {
   "version": 2,
   "full": {
-    "location_ota": "https://github.com/mwdmwd/rooted-graphene-ota/releases/download/2026052400/komodo-2026052400-990bd24-rootless.zip",
-    "location_csig": "https://github.com/mwdmwd/rooted-graphene-ota/releases/download/2026052400/komodo-2026052400-990bd24-rootless.zip.csig"
+    "location_ota": "https://github.com/mwdmwd/rooted-graphene-ota/releases/download/2026060100/komodo-2026060100-990bd24-rootless.zip",
+    "location_csig": "https://github.com/mwdmwd/rooted-graphene-ota/releases/download/2026060100/komodo-2026060100-990bd24-rootless.zip.csig"
   }
 }
