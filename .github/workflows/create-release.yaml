@@ -18,15 +18,16 @@ jobs:
       - name: Checkout rooted-graphene script repository
         uses: actions/checkout@v5
         with:
-          repository: schnatterer/rooted-graphene
+          repository: mwdmwd/rooted-graphene
           ref: ${{ github.event.inputs.rooted-graphene-version || inputs.rooted-graphene-version || 'main' }}
           fetch-depth: 1 # Efficent checkout, we only need the one ref
       - name: Set inputs
         # Empty means, use version defined in rooted-ota.sh
-        # Just pick an arbitrary device
+        # Match the device and channel used by the build workflow
         # No MAGISK_PREINIT_DEVICE and SKIP_ROOTLESS leads to only release be checked in checkBuildNecessary
         run: |
-          echo "DEVICE_ID=caiman" >> $GITHUB_ENV
+          echo "DEVICE_ID=komodo" >> $GITHUB_ENV
+          echo "OTA_CHANNEL=stable" >> $GITHUB_ENV
           echo "SKIP_ROOTLESS=true" >> $GITHUB_ENV
       - run: sudo apt-get install -y jq curl git
       - id: release

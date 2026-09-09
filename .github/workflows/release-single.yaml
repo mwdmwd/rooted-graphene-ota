@@ -75,6 +75,7 @@ jobs:
           echo "DEVICE_ID=$(echo '${{ github.event.inputs.device-id || inputs.device-id || 'shiba' }}' | xargs)" >> $GITHUB_ENV
           echo "MAGISK_PREINIT_DEVICE=$(echo '${{ github.event.inputs.magisk-preinit-device || inputs.magisk-preinit-device || '' }}' | xargs)" >> $GITHUB_ENV
           
+          echo "OTA_CHANNEL=stable" >> $GITHUB_ENV
           echo "OTA_VERSION=$(echo '${{ github.event.inputs.ota-version || '' }}' | xargs)" >> $GITHUB_ENV
           echo "FORCE_OTA_SERVER_UPLOAD=$(echo '${{ github.event.inputs.force-ota-server-upload || '' }}' | xargs)" >> $GITHUB_ENV
           echo "FORCE_BUILD=$(echo '${{ github.event.inputs.force-build || '' }}' | xargs)" >> $GITHUB_ENV
