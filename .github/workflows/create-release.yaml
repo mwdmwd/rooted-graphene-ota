@@ -47,4 +47,6 @@ jobs:
     needs: create-release
     if: needs.create-release.outputs.build_required == 'true'
     uses: ./.github/workflows/release-multiple.yaml
+    with:
+      rooted-graphene-version: ${{ inputs.rooted-graphene-version || 'main' }}
     secrets: inherit

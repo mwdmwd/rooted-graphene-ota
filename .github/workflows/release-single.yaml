@@ -3,6 +3,9 @@ name: Release single device
 on:
   workflow_call:
     inputs:
+      rooted-graphene-version:
+        type: string
+        default: main
       device-id:
         type: string
       magisk-preinit-device:
