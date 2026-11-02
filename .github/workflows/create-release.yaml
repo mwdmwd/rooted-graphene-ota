@@ -9,11 +9,15 @@ on:
       rooted-graphene-version:
         description: Git ref of rooted graphene repo to use
         required: false
+
+permissions:
+  contents: write
+
 jobs:
   create-release:
     runs-on: ubuntu-latest
     outputs:
-      release_created: ${{ steps.release.outputs.release_created }}
+      build_required: ${{ steps.release.outputs.build_required }}
     steps:
       - name: Checkout rooted-graphene script repository
         uses: actions/checkout@v7
@@ -24,23 +28,23 @@ jobs:
       - name: Set inputs
         # Empty means, use version defined in rooted-ota.sh
         # Match the device and channel used by the build workflow
-        # No MAGISK_PREINIT_DEVICE and SKIP_ROOTLESS leads to only release be checked in checkBuildNecessary
+        # Check all three flavors so empty or partial releases are retried
         run: |
           echo "DEVICE_ID=komodo" >> $GITHUB_ENV
           echo "OTA_CHANNEL=stable" >> $GITHUB_ENV
-          echo "SKIP_ROOTLESS=true" >> $GITHUB_ENV
+          echo "MAGISK_PREINIT_DEVICE=sda10" >> $GITHUB_ENV
       - run: sudo apt-get install -y jq curl git
       - id: release
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           GITHUB_REPO: ${{ github.repository }}
         run: |
-          DEBUG=1 bash -c '. rooted-ota.sh && findLatestVersion && checkBuildNecessary && createReleaseIfNecessary && echo "release_created=true" >> $GITHUB_OUTPUT'
+          DEBUG=1 bash -c '. rooted-ota.sh && findLatestVersion && checkBuildNecessary && echo "build_required=true" >> $GITHUB_OUTPUT'
   
   # Run explicitly, instead of triggering on release because this would need additional PAT, making it more complicated:
   # https://stackoverflow.com/a/69063453/1845976
   trigger-multiple-release:
     needs: create-release
-    if: needs.create-release.outputs.release_created == 'true'
+    if: needs.create-release.outputs.build_required == 'true'
     uses: ./.github/workflows/release-multiple.yaml
     secrets: inherit
